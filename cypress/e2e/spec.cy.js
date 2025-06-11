@@ -4,16 +4,16 @@ describe('TODOMvc App', () => {
   })
 
   it('Insere uma tarefa', () => {
-    cy.visit(''); 
+    cy.visit('');
 
     cy.get('[data-cy=todo-input]')
       .type('TP2 de Engenharia de Software{enter}');
 
     cy.get('[data-cy=todos-list]')
       .children()
-      .should('have.length', 1) 
+      .should('have.length', 1)
       .first()
-      .should('have.text', 'TP2 de Engenharia de Software'); 
+      .should('have.text', 'TP2 de Engenharia de Software');
   });
 
   it('Insere e deleta uma tarefa', () => {
@@ -36,7 +36,7 @@ describe('TODOMvc App', () => {
   });
 
   it('Filtra tarefas completas e ativas', () => {
-    cy.visit(''); 
+    cy.visit('');
 
     cy.get('[data-cy=todo-input]')
       .type('TP2 de ES{enter}')
@@ -67,5 +67,24 @@ describe('TODOMvc App', () => {
     cy.get('[data-cy=todos-list]')
       .children()
       .should('have.length', 2);
+  });
+
+  it('Marca tarefas como completas', () => {
+    cy.visit('');
+
+    cy.get('[data-cy=todo-input]')
+      .type('Tarefa 1{enter}')
+      .type('Tarefa 2{enter}');
+
+    cy.get('[data-cy=toggle-todo-checkbox]')
+      .each(($el) => {
+        cy.wrap($el).click();
+      });
+
+    cy.get('[data-cy=toggle-todo-checkbox]')
+      .should('have.length', 2)
+      .each(($el) => {
+        cy.wrap($el).should('be.checked');
+      });
   });
 });
